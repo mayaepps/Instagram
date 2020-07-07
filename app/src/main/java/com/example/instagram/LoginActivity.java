@@ -25,16 +25,17 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // If someone is already logged in, go straight to the main activity
-        if (ParseUser.getCurrentUser() != null) {
-            goMainActivity();
-        }
-
         // view binding
         final ActivityLoginBinding binding = ActivityLoginBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
         setContentView(view);
+
+        // If someone is already logged in, go straight to the main activity
+        if (ParseUser.getCurrentUser() != null) {
+            goMainActivity();
+        }
+
 
         // When login button clicked, get the username and password to log in
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {

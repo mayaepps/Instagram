@@ -24,19 +24,19 @@
     android:id="@+id/loginLayout">
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/etLoginUsername"
         android:hint="@string/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center" />
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/etLoginPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:textAlignment="center"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -44,6 +44,13 @@
         android:layout_height="wrap_content"
         android:text="@string/login"
         android:backgroundTint="@color/colorPrimary"/>
+
+    <Button
+        android:id="@+id/btnCreateAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/sign_up_for_account" />
 
 </LinearLayout>
 </RelativeLayout>

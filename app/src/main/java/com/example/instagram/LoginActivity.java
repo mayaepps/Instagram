@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // If someone is already logged in, go straight to the main activity
         if (ParseUser.getCurrentUser() != null) {
+            Log.i(TAG, "Someone is already logged in!");
             goMainActivity();
         }
 
@@ -41,9 +42,18 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = String.valueOf(binding.etUsername.getText());
-                String password = String.valueOf(binding.etPassword.getText());
+                String username = String.valueOf(binding.etLoginUsername.getText());
+                String password = String.valueOf(binding.etLoginPassword.getText());
                 loginUser(username, password);
+            }
+        });
+
+        binding.btnCreateAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(i);
             }
         });
     }

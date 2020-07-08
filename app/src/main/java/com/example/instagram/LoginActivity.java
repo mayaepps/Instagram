@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // Navigate to the main activity now that the user has signed in
     private void goMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, FeedActivity.class);
         startActivity(i);
         // Can't use the back button to navigate back to the login activity
         finish();

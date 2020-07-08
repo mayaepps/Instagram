@@ -65,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 } else {
                     // Sign up didn't succeed. Look at the ParseException
-                    // to figure out what went wrong
+                    // to figure out what went wrong and tell user
                     Toast.makeText(SignUpActivity.this, "Could not create account: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
                 }

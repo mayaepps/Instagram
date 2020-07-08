@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,6 +16,8 @@ import com.parse.SignUpCallback;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private static final String TAG = "SignUpActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,10 +25,6 @@ public class SignUpActivity extends AppCompatActivity {
         final ActivitySignUpBinding binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
-        Intent i = getIntent();
-
-        Toast.makeText(this, "Inside sign up", Toast.LENGTH_SHORT).show();
 
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,7 +34,15 @@ public class SignUpActivity extends AppCompatActivity {
                 String email = binding.etSignupEmail.getText().toString();
                 String password = binding.etSignupPassword.getText().toString();
 
-                signUp(username, email, password);
+                if (username.isEmpty()) {
+                    Toast.makeText(SignUpActivity.this, "Please enter a username", Toast.LENGTH_SHORT).show();
+                } else if (password.isEmpty()) {
+                    Toast.makeText(SignUpActivity.this, "Please enter a password", Toast.LENGTH_SHORT).show();
+                } else if (email.isEmpty()) {
+                    Toast.makeText(SignUpActivity.this, "Please enter an email", Toast.LENGTH_SHORT).show();
+                } else {
+                    signUp(username, email, password);
+                }
             }
         });
     }
@@ -57,8 +64,10 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(i);
 
                 } else {
-                            // Sign up didn't succeed. Look at the ParseException
-                            // to figure out what went wrong
+                    // Sign up didn't succeed. Look at the ParseException
+                    // to figure out what went wrong
+                    Toast.makeText(SignUpActivity.this, "Could not create account: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
                 }
             }
          });

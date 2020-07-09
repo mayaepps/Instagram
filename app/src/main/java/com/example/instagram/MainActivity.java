@@ -1,8 +1,10 @@
 package com.example.instagram;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,11 +14,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.instagram.Models.Post;
 import com.example.instagram.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private File photoFile;
     private String photoFileName = "photo.jpg";
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,27 @@ public class MainActivity extends AppCompatActivity {
                 savePost(description, currentUser, photoFile);
             }
         });
+
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    Fragment fragment;
+                    switch (menuItem.getItemId()) {
+                        case R.id.action_home:
+                            Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                            break;
+                        case R.id.action_compose:
+                            Toast.makeText(MainActivity.this, "compose", Toast.LENGTH_SHORT).show();
+                            break;
+                        case R.id.action_profile:
+                            Toast.makeText(MainActivity.this, "profile", Toast.LENGTH_SHORT).show();
+                        default:
+                            break;
+                    }
+                    //fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    return true;
+                }
+            });
 
         binding.btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -26,6 +26,11 @@ android {
     }
 }
 
+ext {
+    appCompatVersion = '1.0.0'
+    designSupportVersion = '1.0.0'
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -46,5 +51,8 @@ dependencies {
 
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
+
+    implementation "androidx.appcompat:appcompat:${appCompatVersion}"
+    implementation "com.google.android.material:material:${designSupportVersion}"
 
 }

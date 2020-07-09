@@ -15,7 +15,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".PostDetailsActivity"></activity>
-        <activity android:name=".FeedActivity" />
         <activity android:name=".SignUpActivity" />
 
         <provider

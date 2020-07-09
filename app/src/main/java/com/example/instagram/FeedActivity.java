@@ -3,6 +3,7 @@ package com.example.instagram;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import java.util.List;
 public class FeedActivity extends AppCompatActivity {
 
     private static final String TAG = "FeedActivity";
+    private SwipeRefreshLayout swipeContainer;
     private static final int POST_LIMIT = 20;
     private RecyclerView rvPosts;
     protected PostsAdapter adapter;
@@ -39,6 +41,16 @@ public class FeedActivity extends AppCompatActivity {
 
         // Set a Layout Manager on the recycler view
         rvPosts.setLayoutManager(new LinearLayoutManager(this));
+
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                queryPosts();
+            }
+        });
 
         // Get posts from Parse
         queryPosts();
@@ -74,9 +86,14 @@ public class FeedActivity extends AppCompatActivity {
                     Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
                 }
 
+               // Remove old data
+                allPosts.clear();
                 // save received posts to the list and notify the adapter of this new data
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
+
+                // Notify swipeContainer the refresh is over
+                swipeContainer.setRefreshing(false);
             }
         });
     }

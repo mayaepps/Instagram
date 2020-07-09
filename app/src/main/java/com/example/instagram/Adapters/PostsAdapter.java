@@ -96,7 +96,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
             // Check image exists to prevent errors
             if (image != null) {
+                ivImage.setVisibility(View.VISIBLE);
                 Glide.with(context).load(image.getUrl()).into(ivImage);
+            } else {
+                ivImage.setVisibility(View.GONE);
             }
 
         }

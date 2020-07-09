@@ -5,12 +5,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 
+import com.example.instagram.Adapters.PostsAdapter;
+import com.example.instagram.Models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +39,20 @@ public class FeedActivity extends AppCompatActivity {
 
         allPosts = new ArrayList<>();
 
+
+        //Instantiate my OnClickListener from the interface in TweetsAdapter
+        PostsAdapter.OnClickListener clickListener = new PostsAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position) {
+
+                Intent i = new Intent(FeedActivity.this, PostDetailsActivity.class);
+                i.putExtra(Post.class.getSimpleName(), allPosts.get(position));
+                startActivity(i);
+            }
+        };
+
         // initialize the array that will hold posts and create a PostsAdapter
-        adapter = new PostsAdapter(this, allPosts);
+        adapter = new PostsAdapter(this, allPosts, clickListener);
 
         // Set the adapter on the recycler view
         rvPosts.setAdapter(adapter);

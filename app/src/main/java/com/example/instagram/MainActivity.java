@@ -13,13 +13,11 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.instagram.databinding.ActivityLoginBinding;
+import com.example.instagram.Models.Post;
 import com.example.instagram.databinding.ActivityMainBinding;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;

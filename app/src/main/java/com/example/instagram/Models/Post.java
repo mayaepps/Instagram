@@ -1,9 +1,18 @@
-package com.example.instagram;
+package com.example.instagram.Models;
+
+import android.text.format.DateUtils;
+import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+import static android.provider.Settings.System.DATE_FORMAT;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {
@@ -12,6 +21,7 @@ public class Post extends ParseObject {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "user";
+    private static final String LOG = "Post";
 
     public String getDescription() {
         // Method getString() is defined in the Parse object class, is like a getter for the key
@@ -41,4 +51,5 @@ public class Post extends ParseObject {
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
     }
+
 }

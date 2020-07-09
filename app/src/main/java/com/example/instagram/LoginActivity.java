@@ -33,10 +33,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // If someone is already logged in, go straight to the main activity
         if (ParseUser.getCurrentUser() != null) {
-            Log.i(TAG, "Someone is already logged in!");
             goMainActivity();
         }
-
 
         // When login button clicked, get the username and password to log in
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {

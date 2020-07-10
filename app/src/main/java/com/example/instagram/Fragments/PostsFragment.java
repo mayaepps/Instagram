@@ -19,6 +19,7 @@ import com.example.instagram.Adapters.PostsAdapter;
 import com.example.instagram.Models.Post;
 import com.example.instagram.PostDetailsActivity;
 import com.example.instagram.R;
+import com.google.android.material.button.MaterialButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -61,6 +62,7 @@ public class PostsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        logOutButtonVisibility(view);
 
         rvPosts = view.findViewById(R.id.rvPosts);
 
@@ -134,5 +136,10 @@ public class PostsFragment extends Fragment {
                 swipeContainer.setRefreshing(false);
             }
         });
+    }
+
+    protected void logOutButtonVisibility(View view) {
+        MaterialButton btnLogOut = view.findViewById(R.id.btnLogOut);
+        btnLogOut.setVisibility(View.GONE);
     }
 }

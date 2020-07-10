@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -53,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(view);
 
-        bottomNavigationView = findViewById(R.id.bottomNavigation);
-
-
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -68,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
                             fragment = new ComposeFragment();
                             break;
                         case R.id.action_profile:
-                            //Todo: update profile
-                            fragment = new ComposeFragment();
                         default:
                             fragment = new ProfileFragment();
                             break;
@@ -80,8 +76,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            bottomNavigationView = findViewById(R.id.bottomNavigation);
+
             // Set default selection so when the app loads for the first time, it will have a fragment loaded
             bottomNavigationView.setSelectedItemId(R.id.action_home);
 
     }
+
 }

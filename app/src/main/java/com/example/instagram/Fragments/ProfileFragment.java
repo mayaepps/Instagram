@@ -1,18 +1,31 @@
 package com.example.instagram.Fragments;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.example.instagram.LoginActivity;
 import com.example.instagram.Models.Post;
+import com.example.instagram.R;
+import com.google.android.material.button.MaterialButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class ProfileFragment extends PostsFragment {
 
     private static final String TAG = "ProfileFragment";
+    private MaterialButton btnLogOut;
 
     @Override
     protected void queryPosts() {
@@ -46,5 +59,20 @@ public class ProfileFragment extends PostsFragment {
                 swipeContainer.setRefreshing(false);
             }
         });
+    }
+
+    @Override
+    protected void logOutButtonVisibility(View view) {
+        MaterialButton btnLogOut = view.findViewById(R.id.btnLogOut);
+        btnLogOut.setVisibility(View.VISIBLE);
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOut();
+                Intent i = new Intent(getContext(), LoginActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 }

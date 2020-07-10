@@ -20,6 +20,12 @@
             android:layout_height="wrap_content"
             android:text="@string/take_picture"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPhotos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/from_photos" />
+
         <ImageView
             android:id="@+id/ivPostImage"
             android:layout_width="match_parent"
@@ -31,4 +37,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/submit"/>
-    </LinearLayout>
+
+</LinearLayout>

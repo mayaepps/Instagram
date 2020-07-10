@@ -12,4 +12,5 @@
     <string name="email">Email</string>
     <string name="register">Register</string>
     <string name="log_out">Log out</string>
+    <string name="from_photos">From Photos</string>
 </resources>

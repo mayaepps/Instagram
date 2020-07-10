@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.instagram.Adapters.PostsAdapter;
 import com.example.instagram.Models.Post;
@@ -36,6 +37,8 @@ public class PostsFragment extends Fragment {
 
     private static final String TAG = "PostsFragment";
     protected SwipeRefreshLayout swipeContainer;
+    // PICK_PHOTO_CODE is a constant integer
+    public final static int PICK_PHOTO_CODE = 1046;
 
     private static final int POST_LIMIT = 20;
     private RecyclerView rvPosts;
@@ -63,6 +66,9 @@ public class PostsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         logOutButtonVisibility(view);
+
+        // Show loading progress bar
+        view.findViewById(R.id.pbLoading).setVisibility(ProgressBar.VISIBLE);
 
         rvPosts = view.findViewById(R.id.rvPosts);
 
@@ -134,6 +140,8 @@ public class PostsFragment extends Fragment {
 
                 // Notify swipeContainer the refresh is over
                 swipeContainer.setRefreshing(false);
+                // Show loading progress bar
+                getView().findViewById(R.id.pbLoading).setVisibility(ProgressBar.VISIBLE);
             }
         });
     }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.instagram.Fragments.ComposeFragment;
 import com.example.instagram.Fragments.PostsFragment;
+import com.example.instagram.Fragments.ProfileFragment;
 import com.example.instagram.Models.Post;
 import com.example.instagram.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -61,20 +62,16 @@ public class MainActivity extends AppCompatActivity {
                     Fragment fragment;
                     switch (menuItem.getItemId()) {
                         case R.id.action_home:
-                            // Todo: Update fragment
-                            Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
                             fragment = new PostsFragment();
                             break;
                         case R.id.action_compose:
-                            Toast.makeText(MainActivity.this, "compose", Toast.LENGTH_SHORT).show();
                             fragment = new ComposeFragment();
                             break;
                         case R.id.action_profile:
                             //Todo: update profile
-                            Toast.makeText(MainActivity.this, "profile", Toast.LENGTH_SHORT).show();
                             fragment = new ComposeFragment();
                         default:
-                            fragment = new ComposeFragment();
+                            fragment = new ProfileFragment();
                             break;
                     }
                 // Switch out the frame layout with the specified fragment

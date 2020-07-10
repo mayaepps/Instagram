@@ -34,7 +34,7 @@ import java.util.List;
 public class PostsFragment extends Fragment {
 
     private static final String TAG = "PostsFragment";
-    private SwipeRefreshLayout swipeContainer;
+    protected SwipeRefreshLayout swipeContainer;
 
     private static final int POST_LIMIT = 20;
     private RecyclerView rvPosts;
@@ -92,7 +92,6 @@ public class PostsFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
                 queryPosts();
             }
         });
@@ -103,7 +102,7 @@ public class PostsFragment extends Fragment {
     }
 
     // Get posts from Parse
-    private void queryPosts() {
+    protected void queryPosts() {
         // specify what type of data to query - Post.class
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // include data referred by user key
@@ -123,12 +122,6 @@ public class PostsFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting posts", e);
                     return;
-                }
-
-                // For now to help with debugging: print every post description to logcat
-                //TODO: remove when not needed anymore
-                for (Post post : posts) {
-                    Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
                 }
 
                 // Remove old data

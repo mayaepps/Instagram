@@ -32,7 +32,10 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -46,6 +49,7 @@ public class ComposeFragment extends Fragment {
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     public static final String TAG = "ComposeFragment";
+    private static final int IMAGE_WIDTH = 500;
 
     private EditText etDescription;
     private Button btnCaptureImage;
@@ -102,7 +106,7 @@ public class ComposeFragment extends Fragment {
                     return;
                 }
 
-                savePost(description, currentUser, photoFile);
+                savePost(description, currentUser, getPhotoFileUri(photoFileName + "_resized"));
             }
         });
 
@@ -124,6 +128,7 @@ public class ComposeFragment extends Fragment {
         // wrap File object into a content provider, required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
         Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider", photoFile);
+
         // Tell the camera application where to put the output using fileProvider
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
@@ -202,13 +207,49 @@ public class ComposeFragment extends Fragment {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                // RESIZE BITMAP, see section below
-                // Load the taken image into a preview
-                ivPostImage.setImageBitmap(takenImage);
-            } else { // Result was a failure
+                // Turn the file into Bitmap: Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+
+                // Resize the image
+                resizeImage();
+
+            } else {
+                // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    // from BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
+    // scale and keep aspect ratio
+    public static Bitmap scaleToFitWidth(Bitmap b, int width)
+    {
+        float factor = width / (float) b.getWidth();
+        return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);
+    }
+
+    private void resizeImage() {
+        Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
+        // by this point we have the camera photo on disk
+        Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
+        // See BitmapScaler.java: https://gist.github.com/nesquena/3885707fd3773c09f1bb
+        Bitmap resizedBitmap = scaleToFitWidth(rawTakenImage, IMAGE_WIDTH);
+        // Load the taken image into a preview
+        ivPostImage.setImageBitmap(resizedBitmap);
+
+        // Configure byte output stream
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        // Compress the image further
+        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+        // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
+        File resizedFile = getPhotoFileUri(photoFileName + "_resized");
+        try {
+            resizedFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(resizedFile);
+            // Write the bytes of the bitmap to file
+            fos.write(bytes.toByteArray());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.instagram.Adapters.PostsAdapter;
+import com.example.instagram.EndlessRecyclerViewScrollListener;
 import com.example.instagram.Models.Post;
 import com.example.instagram.PostDetailsActivity;
 import com.example.instagram.R;
@@ -40,10 +41,11 @@ public class PostsFragment extends Fragment {
     // PICK_PHOTO_CODE is a constant integer
     public final static int PICK_PHOTO_CODE = 1046;
 
-    private static final int POST_LIMIT = 20;
+    public static final int POST_LIMIT = 20;
     private RecyclerView rvPosts;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     public PostsFragment(){
 
@@ -92,34 +94,48 @@ public class PostsFragment extends Fragment {
         // Set the adapter on the recycler view
         rvPosts.setAdapter(adapter);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
         // Set a Layout Manager on the recycler view
-        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvPosts.setLayoutManager(layoutManager);
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                queryPosts();
+                queryPosts(0);
             }
         });
 
         // Get posts from Parse
-        queryPosts();
+        queryPosts(0);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                queryPosts(page);
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        rvPosts.addOnScrollListener(scrollListener);
 
     }
 
     // Get posts from Parse
-    protected void queryPosts() {
+    protected void queryPosts(final int page) {
         // specify what type of data to query - Post.class
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // include data referred by user key
         query.include(Post.KEY_USER);
+        query.setSkip(POST_LIMIT*page);
 
         // limit query to latest 20 items
         query.setLimit(POST_LIMIT);
 
-        // order posts by creation date (newest first) (TODO: figure this out)
+        // order posts by creation date (newest first)
         query.addDescendingOrder(Post.KEY_CREATED_AT);
 
         // start an asynchronous call for posts
@@ -132,8 +148,12 @@ public class PostsFragment extends Fragment {
                     return;
                 }
 
-                // Remove old data
-                allPosts.clear();
+                if (page == 0) {
+                    // Remove old data
+                    allPosts.clear();
+                    adapter.clear();
+                }
+
                 // save received posts to the list and notify the adapter of this new data
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();

@@ -28,15 +28,16 @@ public class ProfileFragment extends PostsFragment {
     private MaterialButton btnLogOut;
 
     @Override
-    protected void queryPosts() {
+    protected void queryPosts(final int page) {
         // specify what type of data to query - Post.class
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         // include data referred by user key
         query.include(Post.KEY_USER);
+        query.setSkip(PostsFragment.POST_LIMIT*page);
 
         query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
 
-        // order posts by creation date (newest first) (TODO: figure this out)
+        // order posts by creation date (newest first)
         query.addDescendingOrder(Post.KEY_CREATED_AT);
 
         // start an asynchronous call for posts
@@ -49,8 +50,11 @@ public class ProfileFragment extends PostsFragment {
                     return;
                 }
 
-                // Remove old data
-                allPosts.clear();
+                if (page == 0) {
+                    // Remove old data
+                    allPosts.clear();
+                }
+
                 // save received posts to the list and notify the adapter of this new data
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();
@@ -63,7 +67,7 @@ public class ProfileFragment extends PostsFragment {
 
     @Override
     protected void logOutButtonVisibility(View view) {
-        MaterialButton btnLogOut = view.findViewById(R.id.btnLogOut);
+        btnLogOut = view.findViewById(R.id.btnLogOut);
         btnLogOut.setVisibility(View.VISIBLE);
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,8 +75,8 @@ public class ProfileFragment extends PostsFragment {
                 ParseUser.logOut();
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);
+                getActivity().finish();
             }
         });
-
     }
 }

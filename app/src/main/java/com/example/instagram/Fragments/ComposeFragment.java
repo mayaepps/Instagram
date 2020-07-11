@@ -109,7 +109,7 @@ public class ComposeFragment extends Fragment {
 
                 ParseUser currentUser = ParseUser.getCurrentUser();
 
-                if (photoFile == null && ivPostImage.getDrawable() == null || bitmap == null) {
+                if (photoFile == null && bitmap == null) {
                     // The image preview or the photoFile is null so it should not post the image
                     Toast.makeText(getContext(), "There is no image to post!", Toast.LENGTH_SHORT).show();
                     return;
@@ -188,27 +188,6 @@ public class ComposeFragment extends Fragment {
                 // Clear out the views to indicate the post was submitted
                 etDescription.setText("");
                 ivPostImage.setImageResource(0); // resource id of 0 is an empty resource
-            }
-        });
-    }
-
-    private void queryPosts() {
-        // Specify which class to query
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> objects, ParseException e) {  // objects is a list of all the Post objects from the database
-                if (e != null) {
-                    // Something has gone wrong (there was an exception)
-                    Log.e(TAG, "Issue with getting posts", e);
-                    return;
-                } else {
-                    for (Post post : objects) {
-                        Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                    }
-                }
-
             }
         });
     }
@@ -299,7 +278,6 @@ public class ComposeFragment extends Fragment {
 
                 Uri photoUri = data.getData();
 
-                bitmap = null;
                 // Load the image located at photoUri into selectedImage
                 bitmap = loadFromUri(photoUri);
 

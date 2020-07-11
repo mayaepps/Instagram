@@ -23,15 +23,18 @@
     android:layout_centerInParent="true"
     android:id="@+id/loginLayout">
 
-    <EditText
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/etLoginUsername"
-        android:hint="@string/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center" />
+        android:focusable="auto"
+        android:hint="@string/username"
+        android:textAlignment="center"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/etLoginPassword"
+        android:focusable="auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
@@ -43,14 +46,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login"
-        android:backgroundTint="@color/colorPrimary"/>
+        android:backgroundTint="@color/loginBlue"/>
+
+</LinearLayout>
 
     <Button
         android:id="@+id/btnCreateAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="@string/sign_up_for_account" />
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@android:color/white"
+        android:text="@string/sign_up_for_account"
+        android:textColor="@android:color/darker_gray" />
 
-</LinearLayout>
 </RelativeLayout>

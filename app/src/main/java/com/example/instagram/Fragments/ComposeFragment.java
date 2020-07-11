@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.instagram.MainActivity;
@@ -63,6 +65,7 @@ public class ComposeFragment extends Fragment {
     private ImageView ivPostImage;
     private Button btnSubmit;
     private Button btnPhotos;
+    private ProgressBar pbLoading;
 
     private File photoFile;
     private String photoFileName = "photo.jpg";
@@ -96,6 +99,7 @@ public class ComposeFragment extends Fragment {
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         btnPhotos = view.findViewById(R.id.btnPhotos);
+        pbLoading = view.findViewById(R.id.pbLoading);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +133,7 @@ public class ComposeFragment extends Fragment {
                 launchCamera();
             }
         });
+
         btnPhotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -198,6 +203,8 @@ public class ComposeFragment extends Fragment {
         // Create intent for picking a photo from the gallery
         Intent intent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        pbLoading.setVisibility(view.VISIBLE);
 
 //        // Create a File reference for future access
 //        photoFile = getPhotoFileUri(photoFileName);
@@ -283,6 +290,7 @@ public class ComposeFragment extends Fragment {
 
                 // Load the selected image into a preview
                 ivPostImage.setImageBitmap(bitmap);
+                pbLoading.setVisibility(getView().GONE);
             }
         }
     }

@@ -56,4 +56,6 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${appCompatVersion}"
     implementation "com.google.android.material:material:${designSupportVersion}"
 
+    implementation 'jp.wasabeef:glide-transformations:4.1.0'
+
 }

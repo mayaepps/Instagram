@@ -11,11 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.instagram.Models.Post;
 import com.example.instagram.R;
 import com.parse.ParseFile;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
@@ -72,12 +75,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         TextView tvUsername;
         ImageView ivImage;
         TextView tvDescription;
+        TextView tvCaptionUsername;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            tvCaptionUsername = itemView.findViewById(R.id.tvCaptionUsername);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,6 +95,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         // Bind post data to the view
         private void bind(Post post) {
             tvUsername.setText(post.getUser().getUsername());
+            tvCaptionUsername.setText(post.getUser().getUsername());
             tvDescription.setText(post.getDescription());
 
             ParseFile image = post.getImage();

@@ -161,7 +161,7 @@ public class PostsFragment extends Fragment {
                 // Notify swipeContainer the refresh is over
                 swipeContainer.setRefreshing(false);
                 // Show loading progress bar
-                getView().findViewById(R.id.pbLoading).setVisibility(ProgressBar.VISIBLE);
+                getView().findViewById(R.id.pbLoading).setVisibility(ProgressBar.GONE);
             }
         });
     }

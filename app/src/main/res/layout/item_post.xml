@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="8dp">
+    android:paddingVertical="16dp">
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerCrop"
+        tools:srcCompat="@drawable/ic_baseline_person_outline_24"
+        android:src="@drawable/ic_baseline_person_outline_24"
+        android:paddingLeft="8dp"
+        />
 
     <TextView
         android:id="@+id/tvUsername"
@@ -14,6 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
+        android:layout_toRightOf="@+id/ivProfileImage"
+        android:padding="8dp"
+        android:textStyle="bold"
         tools:text="Username" />
 
     <ImageView
@@ -21,11 +34,26 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="centerCrop"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_below="@+id/tvUsername"/>
+
+    <TextView
+        android:id="@+id/tvCaptionUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivImage"
+        android:paddingTop="8dp"
+        android:textStyle="bold"
+        tools:text="Caption here"
+        android:paddingStart="8dp"/>
 
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ivImage"
+        android:layout_toRightOf="@id/tvCaptionUsername"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
         tools:text="Caption here" />
-</LinearLayout>
+</RelativeLayout>

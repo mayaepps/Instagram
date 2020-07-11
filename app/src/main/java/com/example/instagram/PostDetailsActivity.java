@@ -27,6 +27,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         post = getIntent().getParcelableExtra(Post.class.getSimpleName());
         binding.tvUsername.setText(post.getUser().getUsername());
         binding.tvDescription.setText(post.getDescription());
+        binding.tvCaptionUsername.setText(post.getUser().getUsername());
         ParseFile image = post.getImage();
         if (image != null) {
             Glide.with(this).load(image.getUrl()).into(binding.ivImage);

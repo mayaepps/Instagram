@@ -11,14 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.instagram.Models.Post;
 import com.example.instagram.R;
 import com.parse.ParseFile;
 
 import java.util.List;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
@@ -84,6 +81,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvCaptionUsername = itemView.findViewById(R.id.tvCaptionUsername);
 
+            // Go to post details activity if a post is tapped
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -98,9 +96,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvCaptionUsername.setText(post.getUser().getUsername());
             tvDescription.setText(post.getDescription());
 
+            // Check image exists before loading it into ivImage using Glide
             ParseFile image = post.getImage();
-
-            // Check image exists to prevent errors
             if (image != null) {
                 ivImage.setVisibility(View.VISIBLE);
                 Glide.with(context).load(image.getUrl()).into(ivImage);

@@ -29,17 +29,11 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PostsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+// Home feed of posts
 public class PostsFragment extends Fragment {
 
     private static final String TAG = "PostsFragment";
     protected SwipeRefreshLayout swipeContainer;
-    // PICK_PHOTO_CODE is a constant integer
-    public final static int PICK_PHOTO_CODE = 1046;
 
     public static final int POST_LIMIT = 20;
     private RecyclerView rvPosts;
@@ -76,8 +70,7 @@ public class PostsFragment extends Fragment {
 
         allPosts = new ArrayList<>();
 
-
-        //Instantiate my OnClickListener from the interface in TweetsAdapter
+        //Instantiate my OnClickListener from the interface in PostsAdapter
         PostsAdapter.OnClickListener clickListener = new PostsAdapter.OnClickListener() {
             @Override
             public void onClick(int position) {
@@ -99,8 +92,8 @@ public class PostsFragment extends Fragment {
         // Set a Layout Manager on the recycler view
         rvPosts.setLayoutManager(layoutManager);
 
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -108,18 +101,15 @@ public class PostsFragment extends Fragment {
             }
         });
 
-        // Get posts from Parse
         queryPosts(0);
 
+        // Triggered only when new data needs to be appended to the list
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
                 queryPosts(page);
             }
         };
-        // Adds the scroll listener to RecyclerView
         rvPosts.addOnScrollListener(scrollListener);
 
     }
@@ -142,15 +132,13 @@ public class PostsFragment extends Fragment {
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
-                // check for errors
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
+                    Log.e(TAG, "Issue with getting posts: " + e.getMessage(), e);
                     return;
                 }
 
                 if (page == 0) {
-                    // Remove old data
-                    allPosts.clear();
+                    // Remove old data if not getting more pages for the scroll listener
                     adapter.clear();
                 }
 
@@ -160,12 +148,13 @@ public class PostsFragment extends Fragment {
 
                 // Notify swipeContainer the refresh is over
                 swipeContainer.setRefreshing(false);
-                // Show loading progress bar
+                // Hide loading progress bar
                 getView().findViewById(R.id.pbLoading).setVisibility(ProgressBar.GONE);
             }
         });
     }
 
+    // Don't want to show the log out button in the home feed
     protected void logOutButtonVisibility(View view) {
         MaterialButton btnLogOut = view.findViewById(R.id.btnLogOut);
         btnLogOut.setVisibility(View.GONE);

@@ -18,11 +18,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
-    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +32,12 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(view);
 
+        // Main logic for which screen appears
+        // Switches the fragment showing in the activity when the respective menu item is tapped in the bottom navigation bar
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
                     Fragment fragment;
                     switch (menuItem.getItemId()) {
                         case R.id.action_home:
@@ -51,16 +52,12 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
                 // Switch out the frame layout with the specified fragment
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit(); // commit means make it happen
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit(); // commit means "make it happen now"
                     return true;
                 }
             });
 
-            bottomNavigationView = findViewById(R.id.bottomNavigation);
-
             // Set default selection so when the app loads for the first time, it will have a fragment loaded
-            bottomNavigationView.setSelectedItemId(R.id.action_home);
-
+            binding.bottomNavigation.setSelectedItemId(R.id.action_home);
     }
-
 }

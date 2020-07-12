@@ -1,18 +1,9 @@
 package com.example.instagram.Models;
 
-import android.text.format.DateUtils;
-import android.util.Log;
-
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-import static android.provider.Settings.System.DATE_FORMAT;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {

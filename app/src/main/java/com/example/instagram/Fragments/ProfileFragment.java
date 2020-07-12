@@ -1,14 +1,8 @@
 package com.example.instagram.Fragments;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.instagram.LoginActivity;
 import com.example.instagram.Models.Post;
@@ -20,7 +14,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class ProfileFragment extends PostsFragment {
 
@@ -46,12 +39,12 @@ public class ProfileFragment extends PostsFragment {
             public void done(List<Post> posts, ParseException e) {
                 // check for errors
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
+                    Log.e(TAG, "Issue with getting posts: " + e.getMessage(), e);
                     return;
                 }
 
                 if (page == 0) {
-                    // Remove old data
+                    // Remove old data only if loading posts from the beginning (not EndlessScrollListener)
                     allPosts.clear();
                 }
 
@@ -65,6 +58,8 @@ public class ProfileFragment extends PostsFragment {
         });
     }
 
+
+    // Called in onViewCreated, shows & sets onClickListener on the log out button
     @Override
     protected void logOutButtonVisibility(View view) {
         btnLogOut = view.findViewById(R.id.btnLogOut);
@@ -75,6 +70,7 @@ public class ProfileFragment extends PostsFragment {
                 ParseUser.logOut();
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);
+                // Stop the user from tapping back and seeing the old screen/activity
                 getActivity().finish();
             }
         });

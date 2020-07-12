@@ -4,11 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.instagram.databinding.ActivityLoginBinding;
@@ -16,8 +13,8 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-public class LoginActivity extends AppCompatActivity {
 
+public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
@@ -36,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             goMainActivity();
         }
 
-        // When login button clicked, get the username and password to log in
+        // When login button tapped, get the username and password to log in
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,10 +43,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // When sign up button is tapped, go to SignUpActivity
         binding.btnCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(i);
             }
@@ -61,9 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                // If the request is successful, the exception will be null
-
-                if (e != null) {
+                if (e != null) { // If the request is successful, the exception will be null
                     Log.e(TAG, "Issue with login: " + e.getMessage(), e);
                     return;
                 } else {

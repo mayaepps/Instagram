@@ -4,19 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.instagram.databinding.ActivityLoginBinding;
 import com.example.instagram.databinding.ActivitySignUpBinding;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 public class SignUpActivity extends AppCompatActivity {
-
-    private static final String TAG = "SignUpActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +26,12 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                // Get sign up information
                 String username = binding.etSignupUsername.getText().toString();
                 String email = binding.etSignupEmail.getText().toString();
                 String password = binding.etSignupPassword.getText().toString();
 
+                // Make sure entries are valid/not empty
                 if (username.isEmpty()) {
                     Toast.makeText(SignUpActivity.this, "Please enter a username", Toast.LENGTH_SHORT).show();
                 } else if (password.isEmpty()) {
@@ -41,22 +39,23 @@ public class SignUpActivity extends AppCompatActivity {
                 } else if (email.isEmpty()) {
                     Toast.makeText(SignUpActivity.this, "Please enter an email", Toast.LENGTH_SHORT).show();
                 } else {
+                    // Sign up in Parse
                     signUp(username, email, password);
                 }
             }
         });
     }
 
+    // Sign a new user up in Parse
     private void signUp(String username, String email, String password) {
-        // Create the ParseUser
+
+        // Create a new ParseUser and set its properties
         ParseUser user = new ParseUser();
-        // Set core properties
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
-        // Set custom properties
-        //user.put("phone", "650-253-0000");
-        // Invoke signUpInBackground
+
+        // Ask Parse to sign the new user in
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
@@ -64,8 +63,7 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(i);
 
                 } else {
-                    // Sign up didn't succeed. Look at the ParseException
-                    // to figure out what went wrong and tell user
+                    // Sign up didn't succeed, tell user why
                     Toast.makeText(SignUpActivity.this, "Could not create account: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
                 }

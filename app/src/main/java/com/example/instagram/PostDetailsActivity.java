@@ -8,9 +8,9 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.example.instagram.Models.Post;
 import com.example.instagram.databinding.ActivityDetailPostBinding;
-import com.example.instagram.databinding.ActivityMainBinding;
 import com.parse.ParseFile;
 
+//
 public class PostDetailsActivity extends AppCompatActivity {
 
     Post post;
@@ -24,7 +24,9 @@ public class PostDetailsActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        // Get the post that was clicked on and use it to set the details of the views
         post = getIntent().getParcelableExtra(Post.class.getSimpleName());
+
         binding.tvUsername.setText(post.getUser().getUsername());
         binding.tvDescription.setText(post.getDescription());
         binding.tvCaptionUsername.setText(post.getUser().getUsername());
